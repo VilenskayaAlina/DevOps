@@ -1,0 +1,34 @@
+
+services:
+  backend:
+    build:
+      context: ./backend  # Путь к Dockerfile для backend
+      dockerfile: Dockerfile
+    container_name: backend_container
+    networks:
+      - app_network
+    volumes:
+      - data:/app/data  # Сохраняем data.txt вне контейнера
+    restart: always  # Автоматический перезапуск контейнера при сбое
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build:
+      context: ./frontend  # Путь к Dockerfile для frontend
+      dockerfile: Dockerfile
+    container_name: frontend_container
+    depends_on:
+      - backend  # Указываем, что frontend зависит от backend
+    networks:
+      - app_network
+    restart: always
+    ports:
+      - "8000:8000"
+
+volumes:
+  data:  # Создаём volume для хранения файла data.txt вне контейнера
+
+networks:
+  app_network:
+    driver: bridge  # Общая сеть для взаимодействия frontend и backend
