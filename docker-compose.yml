@@ -24,7 +24,7 @@ services:
       - app_network
     restart: always
     ports:
-      - "8000:8000"
+      - "3000:3000"
 
 volumes:
   data:  # Создаём volume для хранения файла data.txt вне контейнера
